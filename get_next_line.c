@@ -20,12 +20,12 @@ int	line_magic(int fd, char *s[], char **line)
 	len = 0;
 	if (*s[fd] == '\0')
 		return (0);
-	while (s[fd][len] != '\n' && s[fd][len] != '\0')// длина до обозначения конца
+	while (s[fd][len] != '\n' && s[fd][len] != '\0')
 		len++;
-	*line = ft_strsub(s[fd], 0, len);// обрезание стека
-	helper = ft_strdup(&*(s[fd] + len + 1)); // что полсе \n
+	*line = ft_strsub(s[fd], 0, len);
+	helper = ft_strdup(&*(s[fd] + len + 1));
 	ft_memdel((void**)&s[fd]);
-	s[fd] = ft_strdup(helper);//положили остаток строки
+	s[fd] = ft_strdup(helper);
 	ft_memdel((void**)&helper);
 	return (1);
 }
@@ -42,8 +42,8 @@ int	get_next_line(const int fd, char **line)
 	(s[fd] == NULL) && (s[fd] = ft_strnew(0));
 	while ((ft_strchr(s[fd], '\n') == NULL) || (ft_strchr(s[fd], '\0') == NULL))
 	{
-		ret = read(fd, line_buf, BUFF_SIZE);//считывает файл по фд
-		if (ret == 0 && *s[fd] != '\0')// нету символов в строке
+		ret = read(fd, line_buf, BUFF_SIZE);
+		if (ret == 0 && *s[fd] != '\0')
 		{
 			helper = s[fd];
 			s[fd] = ft_strjoin(helper, "\n");
@@ -51,9 +51,9 @@ int	get_next_line(const int fd, char **line)
 		}
 		if (ret == 0)
 			break ;
-		line_buf[ret] = '\0';// кидаем \0 в конец считанной строки
+		line_buf[ret] = '\0';
 		helper = s[fd];
-		s[fd] = ft_strjoin(helper, line_buf);//собираем строку по лайнбафам
+		s[fd] = ft_strjoin(helper, line_buf);
 		ft_memdel((void**)&helper);
 	}
 	return (line_magic(fd, s, line));
